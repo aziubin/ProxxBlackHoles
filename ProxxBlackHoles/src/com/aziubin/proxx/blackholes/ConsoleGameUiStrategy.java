@@ -4,7 +4,6 @@ https://opensource.org/licenses/MIT.*/
 package com.aziubin.proxx.blackholes;
 
 /**
- * @author aziub
  * Implementation of the {@link #UiStrategy} interface suitable for users.
  */
 public class ConsoleGameUiStrategy extends AbstractGameUiStrategy implements UiStrategy {

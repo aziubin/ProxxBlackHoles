@@ -6,10 +6,8 @@ package com.aziubin.proxx.blackholes;
 import java.util.Scanner;
 
 /**
- * @author aziub
  * Start this application like below:
- * java.exe -cp ProxxBlackHoles.jar com.aziubin.proxx.blackholes.game
- *
+ * java.exe -Xss10m -cp ProxxBlackHoles.jar com.aziubin.proxx.blackholes.game 300 133 3455
  */
 public class game {
 	private static final String UNEXPECTED_INPUT = "unexpected input";
@@ -64,7 +62,7 @@ public class game {
 						board.ui();
 						break;
 					}
-
+//tpdp : ctrl-c
 				} catch (GameIsOver e) {
 					System.out.println(e.getMessage());
 					break;

@@ -17,7 +17,12 @@ public class Board {
 
 	private final int width;
 	private final int heigth;
-	private final byte[][]board;
+
+	/**
+	 * Array of bytes is compact and fast data structure allowing
+	 * huge boards and fast test cases.
+	 */
+	private final byte[][] board;
 	private final UiStrategy uiStrategy;
 	private final int holesCnt;
 
@@ -29,6 +34,7 @@ public class Board {
 	}
 	
 	public static boolean isHole(byte cell) {
+		// using defensive programming style.
 		return HOLE_CELL == cell;
 	}
 
@@ -77,7 +83,7 @@ public class Board {
 		if (0 == cell) {
 			// when found a cell, which does not have holes neighbors,
 			// inspect each neighbor to identify other cells, which has to be
-			// opened for user.
+			// opened propagating open space for user.
 			for (int i = x - 1; i <= x + 1; ++i) {
 				for (int j = y - 1; j <= y + 1; ++j) {
 					openAdjacentCells(i, j);
@@ -167,7 +173,6 @@ public class Board {
 		int result = 0;
 		for (byte[] line : board) {
 			for (byte cell : line) {
-//				if (!isHole(cell) && !isClosed(cell)) {
 				if (!isClosed(cell)) {
 					++result;
 				}

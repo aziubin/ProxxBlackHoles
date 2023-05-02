@@ -29,7 +29,6 @@ public class game {
 	}
 	
 	private static Integer uiInt(Scanner scanner) {
-		System.out.print(">");
 		if (!scanner.hasNextInt()) {
 			error(UNEXPECTED_INPUT);
 			scanner.next();
@@ -44,7 +43,7 @@ public class game {
 			do {
 				try {
 					board.ui();
-					System.out.println("Type zero-based x and y and press enter, for example: 5 7");
+					System.out.print("Type zero-based x and y and press enter, for example: 5 7\n>");
 
 					Integer x = uiInt(scanner);
 					if (x < 0 || x > width + 1) {

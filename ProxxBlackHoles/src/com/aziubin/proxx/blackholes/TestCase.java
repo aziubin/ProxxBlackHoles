@@ -27,10 +27,13 @@ class TestCase {
 	}
 
 	@Test
-	void test() {
-		for (int y = 3; y < 300; ++y) {
-			for (int x = 4; x < 300; ++x) {
-				Board board = RndBoardFactory.INSTANCE.getBoard(x, y, 10);
+	void testHoles() {
+		for (int y = 3; y < 91; ++y) {
+			for (int x = 4; x < 91; ++x) {
+				for (int h = 0; h < 11; ++h) {
+					Board board = RndBoardFactory.INSTANCE.getBoard(x, y, h);
+					assertEquals(board.holes.size(), h);
+				}
 			}
 		}
 	}

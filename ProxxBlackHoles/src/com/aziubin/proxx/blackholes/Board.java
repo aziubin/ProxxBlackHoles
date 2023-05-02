@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 public class Board {
+	private static final String THIS_CELL_IS_OCCUPIED_BY_A_HOLE = "This cell is occupied by a hole, The gamne is over.";
 	private static final String THE_NUMBER_OF_WHOLES_IS_LARGER = "The number of wholes is larger than the number of cells on the board.";
 	private static final String NOT_POSSIBLE_TO_FIND = "Not possible to find a place for a new hole in specified number of iterations.";
 	public static byte HOLE_CELL = 127;
@@ -49,6 +50,12 @@ public class Board {
 		return x < 0 || y < 0 || x > width - 1 || y > heigth - 1; 
 	}
 	
+	/**
+	 * Simple implementation of recursive search to inspect all cells adjacent to the
+	 * cell, which was chosen by user. 
+	 * @param x horizontal coordinate of chosen cell.
+	 * @param y vertical coordinate of chosen cell.
+	 */
 	private void openAdjacentCells(int x, int y) {
 		if (outOfBounds(x, y) || HOLE_CELL == board[y][x] || 0 <= board[y][x]) {
 			// condition of stop recursion including already opened cells.
@@ -61,6 +68,9 @@ public class Board {
 		board[y][x] = cell;
 		
 		if (0 == cell) {
+			// when found a cell, which does not have holes neighbors,
+			// inspect each neighbor to identify other cells, which has to be
+			// opened for user.
 			for (int i = x - 1; i <= x + 1; ++i) {
 				for (int j = y - 1; j <= y + 1; ++j) {
 					openAdjacentCells(i, j);
@@ -72,7 +82,7 @@ public class Board {
 	public int next(int x, int y) throws GameIsOver { // todo move check here
 		byte cell = board[y][x];
 		if (HOLE_CELL == cell) {
-			throw new GameIsOver("This palce is occupied by a hole, The gamne is over.");
+			throw new GameIsOver(THIS_CELL_IS_OCCUPIED_BY_A_HOLE);
 		} else if (cell < 0) {
 			// Open this cell, so the number of holes is visible.
 			openAdjacentCells(x, y);
@@ -113,7 +123,7 @@ public class Board {
 
 	
 	public void generate() {
-		var r = new SecureRandom();
+		SecureRandom r = new SecureRandom();
 		
 		for (int i = 0; i < holesCnt; ++i) {
 			List<Integer> coordinates = new ArrayList<>(2);
@@ -146,10 +156,9 @@ public class Board {
 	}
 
 	public void ui() {
-		int x = 0;
 		uiStrategy.uiChar(' ');
 		uiStrategy.uiChar(' ');
-		for (byte cell : board[0]) {
+		for (int x = 0; x < board[0].length; ++x) {
 			uiStrategy.uiChar((char) ('0' + (x++ % 10)));
 		}
 		uiStrategy.uiLine();

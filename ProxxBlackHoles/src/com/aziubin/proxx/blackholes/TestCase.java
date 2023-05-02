@@ -30,7 +30,7 @@ class TestCase {
 	void test() {
 		for (int y = 3; y < 300; ++y) {
 			for (int x = 4; x < 300; ++x) {
-				Board board = RndBoardFactory.INSTANCE.getBoard(x, y);
+				Board board = RndBoardFactory.INSTANCE.getBoard(x, y, 10);
 			}
 		}
 	}

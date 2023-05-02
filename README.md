@@ -1,7 +1,7 @@
 # ProxxBlackHoles
-ProxxBlackHoles is aconsole game similar to https://proxx.app/.
+ProxxBlackHoles is a console game with the rules similar to https://proxx.app/.
 
-Example of console output:
+Example of console output with the following board: with 33, heigth 10 and number of holes 21:
 
 ~~~Welcome to the Black Hole console game.
   012345678901234567890123456789012

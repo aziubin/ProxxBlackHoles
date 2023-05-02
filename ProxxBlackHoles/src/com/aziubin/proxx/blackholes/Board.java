@@ -9,7 +9,7 @@ import java.util.Set;
 public class Board {
 	private static final String THE_NUMBER_OF_WHOLES_IS_LARGER = "The number of wholes is larger than the number of cells on the board.";
 	private static final String NOT_POSSIBLE_TO_FIND = "Not possible to find a place for a new hole in specified number of iterations.";
-	private static byte HOLE_CELL = 127;
+	public static byte HOLE_CELL = 127;
 
 	private final int width;
 	private final int heigth;
@@ -19,6 +19,14 @@ public class Board {
 
 	private int remainingCellsToOpen;
 	Set<List<Integer>> holes;
+	
+	public static boolean isHole(byte cell) {
+		return HOLE_CELL == cell;
+	}
+
+	public static boolean isClosed(byte cell) {
+		return 0 > cell;
+	}
 
 	public Board(int width, int height, int holesCnt, UiStrategy uiStrategy) {
 		super();
@@ -56,12 +64,9 @@ public class Board {
 			for (int i = x - 1; i <= x + 1; ++i) {
 				for (int j = y - 1; j <= y + 1; ++j) {
 					openAdjacentCells(i, j);
-//				if (i != x && j != y) {
-//				}
 				}
 			}
 		}
-		
 	}
 	
 	public int next(int x, int y) throws GameIsOver { // todo move check here
@@ -142,30 +147,21 @@ public class Board {
 
 	public void ui() {
 		int x = 0;
-		uiStrategy.uiCell(" ");
-		uiStrategy.uiCell(" ");
+		uiStrategy.uiChar(' ');
+		uiStrategy.uiChar(' ');
 		for (byte cell : board[0]) {
-			uiStrategy.uiCell(String.valueOf(x++ % 10));
+			uiStrategy.uiChar((char) ('0' + (x++ % 10)));
 		}
-		uiStrategy.uiLine(heigth);
+		uiStrategy.uiLine();
 
 		int y = 0;
 		for (byte[] line : board) {
-			uiStrategy.uiCell(String.valueOf((y++)));
-			uiStrategy.uiCell(" ");
+			uiStrategy.uiChar((char) ('0' + (y++ % 10)));
+			uiStrategy.uiChar(' ');
 			for (byte cell : line) {
-				if (HOLE_CELL == cell) {
-					uiStrategy.uiCell("!");
-				} else if (cell < 0) {
-					uiStrategy.uiCell(".");
-				} else if (0 == cell) {
-					// There are no adjacent holes, indicate space.
-					uiStrategy.uiCell(" ");
-				} else {
-					uiStrategy.uiCell(String.valueOf(cell));
-				}
+				uiStrategy.uiCell(cell);
 			}
-			uiStrategy.uiLine(heigth);
+			uiStrategy.uiLine();
 		}
 	}
 

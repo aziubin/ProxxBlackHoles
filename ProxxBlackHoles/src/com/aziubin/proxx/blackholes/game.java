@@ -44,7 +44,7 @@ public class game {
 			do {
 				try {
 					board.ui();
-					System.out.println("Type zero-based x and y and press enter, for example 5 7");
+					System.out.println("Type zero-based x and y and press enter, for example: 5 7");
 
 					Integer x = uiInt(scanner);
 					if (x < 0 || x > width + 1) {

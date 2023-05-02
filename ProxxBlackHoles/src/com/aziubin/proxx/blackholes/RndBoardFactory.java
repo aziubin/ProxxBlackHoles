@@ -5,7 +5,8 @@ public enum RndBoardFactory implements BoardFactory {
 
 	@Override
 	public Board getBoard(Integer width, Integer height, Integer holesNumber) {
-		var board = new Board(width, height, holesNumber, new ConsoleUiStrategy());
+		Board board = new Board(width, height, holesNumber, new ConsoleGameUiStrategy());
+		//Board board = new Board(width, height, holesNumber, new ConsoleDebugUiStrategy());
 		board.generate();
 		board.inspect();
 		return board;

@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 /**
  * @author aziub
- * Start this program like
- * java.exe -cp . com.aziubin.proxx.blackholes.game
+ * Start this application like below:
+ * java.exe -cp ProxxBlackHoles.jar com.aziubin.proxx.blackholes.game
  *
  */
 public class game {
@@ -43,6 +43,7 @@ public class game {
 			do {
 				try {
 					board.ui();
+					System.out.println("Number of holes: " + holesNumber + ". Remaining cells to find: " + board.getRemainingCellsToOpen());
 					System.out.print("Type zero-based x and y and press enter, for example: 5 7\n>");
 
 					Integer x = uiInt(scanner);
@@ -80,7 +81,7 @@ public class game {
 			h = Integer.valueOf(args[1]);
 			k = Integer.valueOf(args[2]);
 		} catch (Exception e) {
-			w = 10;
+			w = 33;
 			h = 10;
 			k = 10;
 			error("incorrect command line parameters, using default board width and height.");

@@ -18,8 +18,12 @@ public class Board {
 	private final UiStrategy uiStrategy;
 	private final int holesCnt;
 
-	private int remainingCellsToOpen;
 	Set<List<Integer>> holes;
+
+	private int remainingCellsToOpen;
+	public int getRemainingCellsToOpen() {
+		return remainingCellsToOpen;
+	}
 	
 	public static boolean isHole(byte cell) {
 		return HOLE_CELL == cell;
@@ -121,7 +125,13 @@ public class Board {
 		}
 	}
 
-	
+	/**
+	 * Generate holes randomly with o(n) algorithm complexity.
+	 * It is possible that subsequent generated holes will overlap, so
+	 * and as a result, the total number of holes will be less than required
+	 * if not addressed.
+	 * Use hash set to verify that new hole does not overlap with exiting. 
+	 */
 	public void generate() {
 		SecureRandom r = new SecureRandom();
 		
@@ -131,11 +141,14 @@ public class Board {
 			coordinates.add(null);
 			int repositionNum = 0;
 			do {
+				// Keep re-generating hole coordinates until new
+				// hole does not overlap or iteration limit exceeded.
 				if (++repositionNum > HOLE_CELL) {
 					throw new IllegalArgumentException(NOT_POSSIBLE_TO_FIND);
 				}
 				coordinates.set(0, r.nextInt(heigth));
 				coordinates.set(1, r.nextInt(width));
+				// No need to use combined x and y coordinates object as Set has built-in support for lists, 
 			} while (holes.contains(coordinates));
 
 			holes.add(coordinates);
@@ -147,7 +160,7 @@ public class Board {
 		int result = 0;
 		for (byte[] line : board) {
 			for (byte cell : line) {
-				if (0 != cell) {
+				if (!isHole(cell) && !isClosed(cell)) {
 					++result;
 				}
 			}
@@ -159,7 +172,7 @@ public class Board {
 		uiStrategy.uiChar(' ');
 		uiStrategy.uiChar(' ');
 		for (int x = 0; x < board[0].length; ++x) {
-			uiStrategy.uiChar((char) ('0' + (x++ % 10)));
+			uiStrategy.uiChar((char) ('0' + (x % 10)));
 		}
 		uiStrategy.uiLine();
 

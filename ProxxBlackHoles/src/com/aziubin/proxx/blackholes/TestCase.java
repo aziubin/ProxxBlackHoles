@@ -26,13 +26,32 @@ class TestCase {
 	void tearDown() throws Exception {
 	}
 
+	/**
+	 * Generate holoes for all possible combinations of parameters and
+	 * verify the number of holes is correct. 
+	 */
 	@Test
-	void testHoles() {
+	void testHolesGeneration() {
 		for (int y = 3; y < 91; ++y) {
 			for (int x = 4; x < 91; ++x) {
 				for (int h = 0; h < 11; ++h) {
 					Board board = RndBoardFactory.INSTANCE.getBoard(x, y, h);
 					assertEquals(board.holes.size(), h);
+				}
+			}
+		}
+	}
+
+	@Test
+	void testCellOpening() {
+		for (int y = 3; y < 91; ++y) {
+			for (int x = 4; x < 91; ++x) {
+				for (int h = 0; h < 11; ++h) {
+					Board board = RndBoardFactory.INSTANCE.getBoard(x, y, h);
+					try {
+						board.next(0, 0);
+						assertEquals(board.getRemainingCellsToOpen(), h);
+					} catch (GameIsOver e) {}  // Ignore the end of game exception.
 				}
 			}
 		}

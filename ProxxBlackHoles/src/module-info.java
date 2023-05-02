@@ -1,9 +1,0 @@
-/**
- * 
- */
-/**
- * @author aziub
- *
- */
-module ProxxBlackHoles {
-}

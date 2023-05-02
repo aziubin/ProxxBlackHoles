@@ -35,7 +35,7 @@ public class game {
 	}
 
 	public static void play(Integer width, Integer heigth) {
-		var board = RndBoardFactory.INSTANCE.getBoard(width, heigth);
+		Board board = RndBoardFactory.INSTANCE.getBoard(width, heigth);
 		try(Scanner scanner = new Scanner(System.in)) {
 			do {
 				try {

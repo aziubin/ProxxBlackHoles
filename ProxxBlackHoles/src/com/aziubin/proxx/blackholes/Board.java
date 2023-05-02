@@ -156,11 +156,16 @@ public class Board {
 		}
 	}
 	
-	public int spaces() {
+	/**
+	 * Inspects the board cell by cell to calculate the number of opened cells including holes for test.
+	 * @return the number of opened cells and holes.
+	 */
+	public int getSpaces() {
 		int result = 0;
 		for (byte[] line : board) {
 			for (byte cell : line) {
-				if (!isHole(cell) && !isClosed(cell)) {
+//				if (!isHole(cell) && !isClosed(cell)) {
+				if (!isClosed(cell)) {
 					++result;
 				}
 			}

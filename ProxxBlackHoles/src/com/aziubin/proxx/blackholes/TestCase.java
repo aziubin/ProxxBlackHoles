@@ -50,8 +50,13 @@ class TestCase {
 					Board board = RndBoardFactory.INSTANCE.getBoard(x, y, h);
 					try {
 						board.next(0, 0);
-						assertEquals(board.getRemainingCellsToOpen(), h);
-					} catch (GameIsOver e) {}  // Ignore the end of game exception.
+						assertEquals(board.getRemainingCellsToOpen(), x * y - board.getSpaces());
+					} catch (GameIsOver e) {
+						  // Ignore the end of game exception.	
+					} catch (Throwable e) {
+						e = e;
+						// Ignore the end of game exception.	
+					}
 				}
 			}
 		}

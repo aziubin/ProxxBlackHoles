@@ -11,7 +11,7 @@ public enum RndBoardFactory implements BoardFactory {
 		Board board = new Board(width, height, holesNumber, new ConsoleGameUiStrategy());
 		//Board board = new Board(width, height, holesNumber, new ConsoleDebugUiStrategy());
 		board.generate();
-		board.inspect();
+		board.inspectBoard();
 		return board;
 	}
 

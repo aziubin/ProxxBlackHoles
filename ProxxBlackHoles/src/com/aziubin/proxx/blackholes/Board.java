@@ -20,7 +20,7 @@ public class Board {
 
 	/**
 	 * Array of bytes is compact and fast data structure allowing
-	 * huge boards and fast test cases.
+	 * fast test cases and huge boards, like 1000 x 700 with -Xss100m. 
 	 */
 	private final byte[][] board;
 	private final UiStrategy uiStrategy;
@@ -64,10 +64,12 @@ public class Board {
 	}
 	
 	/**
-	 * Simple implementation of recursive search to inspect all cells adjacent to the
-	 * cell, which was chosen by user. 
+	 * Simple implementation of recursive search to inspect all cells
+	 * adjacent	to the cell, which was chosen by user. 
 	 * @param x horizontal coordinate of chosen cell.
 	 * @param y vertical coordinate of chosen cell.
+	 * todo: use java.util.Stack to allow bigger boards	avoiding
+	 * StackOverflowError because of recursion.
 	 */
 	private void openAdjacentCells(int x, int y) {
 		if (outOfBounds(x, y) || HOLE_CELL == board[y][x] || 0 <= board[y][x]) {
@@ -92,10 +94,10 @@ public class Board {
 		}
 	}
 	
-	public int next(int x, int y) throws GameIsOver { // todo move check here
+	public int next(int x, int y) throws GameIsOverException { // todo move check here
 		byte cell = board[y][x];
 		if (HOLE_CELL == cell) {
-			throw new GameIsOver(THIS_CELL_IS_OCCUPIED_BY_A_HOLE);
+			throw new GameIsOverException(THIS_CELL_IS_OCCUPIED_BY_A_HOLE);
 		} else if (cell < 0) {
 			// Open this cell, so the number of holes is visible.
 			openAdjacentCells(x, y);
@@ -114,7 +116,7 @@ public class Board {
 	/**
 	 * Negative number indicates closed non-hole cell.
 	 */
-	public void inspect() {
+	public void inspectBoard() {
 		for (int y = 0; y < heigth; ++y ) {
 			for (int x = 0; x < width; ++x) {
 				if (HOLE_CELL == board[y][x]) {

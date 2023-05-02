@@ -54,7 +54,7 @@ class TestCase {
 					try {
 						board.next(0, 0);
 						assertEquals(board.getRemainingCellsToOpen(), x * y - board.getSpaces());
-					} catch (GameIsOver e) {
+					} catch (GameIsOverException e) {
 						  // Ignore the end of game exception.	
 					} catch (Throwable e) {
 						e = e;

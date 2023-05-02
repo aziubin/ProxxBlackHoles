@@ -8,8 +8,9 @@ import java.util.Scanner;
 /**
  * Start this application like below:
  * java.exe -Xss10m -cp ProxxBlackHoles.jar com.aziubin.proxx.blackholes.game 300 133 3455
+ * java -jar ProxxBlackHoles.jar 155 25 187
  */
-public class game {
+public class Game {
 	private static final String UNEXPECTED_INPUT = "unexpected input";
 	private static final String BLACK_HOLE_CONSOLE_GAME = "the Black Hole console game.";
 	
@@ -63,7 +64,7 @@ public class game {
 						break;
 					}
 //tpdp : ctrl-c
-				} catch (GameIsOver e) {
+				} catch (GameIsOverException e) {
 					System.out.println(e.getMessage());
 					break;
 				} catch (Exception e) {

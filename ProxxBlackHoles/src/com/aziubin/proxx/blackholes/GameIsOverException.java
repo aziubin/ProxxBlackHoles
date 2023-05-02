@@ -3,8 +3,8 @@ license that can be found in the LICENSE file or at
 https://opensource.org/licenses/MIT.*/
 package com.aziubin.proxx.blackholes;
 
-public class GameIsOver extends Exception {
-	public GameIsOver(String string) {
+public class GameIsOverException extends Exception {
+	public GameIsOverException(String string) {
 		super(string);
 	}
 

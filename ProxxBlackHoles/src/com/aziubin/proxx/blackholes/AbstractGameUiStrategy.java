@@ -19,9 +19,9 @@ public abstract class AbstractGameUiStrategy implements UiStrategy {
 
 	@Override
 	public void uiCell(byte cell) {
-		if (Board.isHole(cell)) {
+		if (ByteArrayBoardImpl.isHole(cell)) {
 			hole();
-		} else if(Board.isClosed(cell)) {
+		} else if(ByteArrayBoardImpl.isClosed(cell)) {
 			closed();
 		} else {
 			opened(cell);

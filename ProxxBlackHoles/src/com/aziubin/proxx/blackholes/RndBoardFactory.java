@@ -13,7 +13,7 @@ public enum RndBoardFactory implements BoardFactory {
 
 	@Override
 	public Board getBoard(Integer width, Integer height, Integer holesNumber) {
-		ByteArrayBoardImpl board = new ByteArrayBoardImpl(width, height, holesNumber, new ConsoleGameUiStrategy());
+		ByteArrayBoardImpl board = new ByteArrayBoardImpl(width, height, holesNumber, new ConsoleGameUi());
 		//Board board = new Board(width, height, holesNumber, new ConsoleDebugUiStrategy());
 		board.generate();
 		board.inspectBoard();

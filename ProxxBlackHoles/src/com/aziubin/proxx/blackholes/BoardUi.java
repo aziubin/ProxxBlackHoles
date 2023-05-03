@@ -3,7 +3,12 @@ license that can be found in the LICENSE file or at
 https://opensource.org/licenses/MIT.*/
 package com.aziubin.proxx.blackholes;
 
-public interface UiStrategy {
+/**
+ * Helper interface to decouple game logic from nuances of
+ * board representation on the user interface, so it can be easy
+ * for example to run the game in debug mode, when holes are visible. 
+ */
+public interface BoardUi {
 	/**
 	 * Presents a cell of game board to user.
 	 * @param cell the cell, which should be presented.

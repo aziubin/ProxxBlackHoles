@@ -3,7 +3,7 @@ license that can be found in the LICENSE file or at
 https://opensource.org/licenses/MIT.*/
 package com.aziubin.proxx.blackholes;
 
-public abstract class AbstractGameUiStrategy implements UiStrategy {
+public abstract class AbstractGameUi implements BoardUi {
 
 	public abstract void hole();
 

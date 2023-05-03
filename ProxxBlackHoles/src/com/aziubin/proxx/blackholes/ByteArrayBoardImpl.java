@@ -9,10 +9,11 @@ import java.security.SecureRandom;
  * Implementation using array of bytes underneath, which is extremely compact and fast way
  * to keep up to date information about game situation after each move. The content of each
  * cell is represented by the following numbers:
- * -1              cell was not opened yet and does not have neighbor holes. 
- * -2 -3 -4 ... -9 cell was not opened yet and have neighbor holes.
- * 0               cell does not have neighbor holes and is already opened and visible for user.
- * 127             cell is occupied by a hole and never visible for user.
+ * -1              was not opened yet and does not have neighbor holes; 
+ *  0              does not have neighbor holes and is already opened and visible for user;
+ * -2 -3 -4 ... -9 was not opened yet and do have neighbor holes; value is negative decremented number of holes;
+ *  1  2  3 ...  8 has already bean opened and do have neighbor holes; value is the number of holes as is;
+ * 127             is occupied by a hole and never visible for user.
  */
 public class ByteArrayBoardImpl implements Board {
 	public static byte HOLE_CELL = 127;
@@ -28,7 +29,7 @@ public class ByteArrayBoardImpl implements Board {
 	 */
 	private final byte[][] board;
 
-	private final UiStrategy uiStrategy;
+	private final BoardUi ui;
 	private final int holesCnt;
 	private int remainingCellsToOpen;
 
@@ -56,10 +57,10 @@ public class ByteArrayBoardImpl implements Board {
 		return 0 > cell;
 	}
 
-	public ByteArrayBoardImpl(int width, int height, int holesCnt, UiStrategy uiStrategy) {
+	public ByteArrayBoardImpl(int width, int height, int holesCnt, BoardUi uiStrategy) {
 		this.width = width;
 		this.heigth = height;
-		this.uiStrategy = uiStrategy;
+		this.ui = uiStrategy;
 		board = new byte[heigth][width];
 		this.holesCnt = holesCnt;
 		
@@ -109,7 +110,7 @@ public class ByteArrayBoardImpl implements Board {
 	}
 
 	/**
-	 * Use recurrent cell inspection to open "chained" space on the board.
+	 * Implementation, which uses recurrent cell inspection to open "chained" space on the board.
 	 */
 	@Override
 	public int next(int x, int y) throws GameIsOverException {
@@ -150,11 +151,11 @@ public class ByteArrayBoardImpl implements Board {
 		}
 	}
 	
-	boolean isHoleAdjacent(int x, int y) {
+	private boolean isHole(int x, int y) {
 		if (outOfBounds(x, y)) {
 			return false;
 		} else {
-			return HOLE_CELL == board[y][x];
+			return isHole(board[y][x]);
 		}
 	}
 
@@ -167,16 +168,18 @@ public class ByteArrayBoardImpl implements Board {
 				if (HOLE_CELL == board[y][x]) {
 					continue;
 				}
-				byte cnt = -1;
-				if (isHoleAdjacent(x - 1, y - 1)) --cnt;
-				if (isHoleAdjacent(x - 1, y    )) --cnt;
-				if (isHoleAdjacent(x - 1, y + 1)) --cnt;
-				if (isHoleAdjacent(x    , y - 1)) --cnt;
-				if (isHoleAdjacent(x    , y + 1)) --cnt;
-				if (isHoleAdjacent(x + 1, y - 1)) --cnt;
-				if (isHoleAdjacent(x + 1, y    )) --cnt;
-				if (isHoleAdjacent(x + 1, y + 1)) --cnt;
-				board[y][x] = cnt;
+				
+				// Iterate trough each cell in 3 x 3 square
+				// to calculate the number of adjacent holes.
+				byte holeNeighborsCnt = -1;
+				for (int i = x - 1; i <= x + 1; ++i) {
+					for (int j = y - 1; j <= y + 1; ++j) {
+						if (isHole(i, j)) {
+							--holeNeighborsCnt;
+						}
+					}
+				}
+				board[y][x] = holeNeighborsCnt;
 			}
 		}
 	}
@@ -222,21 +225,21 @@ public class ByteArrayBoardImpl implements Board {
 	 */
 	@Override
 	public void ui() {
-		uiStrategy.uiChar(' ');
-		uiStrategy.uiChar(' ');
+		ui.uiChar(' ');
+		ui.uiChar(' ');
 		for (int x = 0; x < board[0].length; ++x) {
-			uiStrategy.uiChar((char) ('0' + (x % 10)));
+			ui.uiChar((char) ('0' + (x % 10)));
 		}
-		uiStrategy.uiLine();
+		ui.uiLine();
 
 		int y = 0;
 		for (byte[] line : board) {
-			uiStrategy.uiChar((char) ('0' + (y++ % 10)));
-			uiStrategy.uiChar(' ');
+			ui.uiChar((char) ('0' + (y++ % 10)));
+			ui.uiChar(' ');
 			for (byte cell : line) {
-				uiStrategy.uiCell(cell);
+				ui.uiCell(cell);
 			}
-			uiStrategy.uiLine();
+			ui.uiLine();
 		}
 	}
 

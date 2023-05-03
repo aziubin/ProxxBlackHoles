@@ -4,18 +4,18 @@ https://opensource.org/licenses/MIT.*/
 package com.aziubin.proxx.blackholes;
 
 /**
- * Implementation of the {@link #UiStrategy} interface suitable for developers when holes are visible.
+ * Implementation of the {@link #UiStrategy} interface suitable for users.
  */
-public class ConsoleDebugUiStrategy extends AbstractGameUiStrategy implements UiStrategy {
+public class ConsoleGameUi extends AbstractGameUi implements BoardUi {
 
 	@Override
 	public void hole() {
-		System.out.print('*');
+		System.out.print(".");
 	}
 
 	@Override
 	public void closed() {
-		System.out.print('.');
+		System.out.print(".");
 	}
 
 }

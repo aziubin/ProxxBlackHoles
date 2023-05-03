@@ -6,10 +6,10 @@ package com.aziubin.proxx.blackholes;
 /**
  * Implementation of the board factory, which produces boards with uniformly randomly generated holes.
  * There is no requirement to have singleton here, but enum is a convenient and thread-safe way to 
- * instantiate factory used as a best practice.
+ * instantiate factory.
  */
 public enum RndBoardFactory implements BoardFactory {
-	INSTANCE;
+	INST;
 
 	@Override
 	public Board getBoard(Integer width, Integer height, Integer holesNumber) {

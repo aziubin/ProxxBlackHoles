@@ -5,10 +5,15 @@ package com.aziubin.proxx.blackholes;
 
 import java.security.SecureRandom;
 
+/**
+ * Implementation using array of bytes underneath, which is extremely compact and fast way
+ * to keep up to date information about board after each move. The content of each cell is
+ * represented by the following numbers:
+ * -2 -3 -4 ... -9 cells invisible to user with holes neighbors.
+ * 127 cell is occupied by a hole
+ * 0 cell, which does not have holes neighbors and is already opened and visible for user
+ */
 public class ByteArrayBoardImpl implements Board {
-	private static final String THIS_CELL_IS_OCCUPIED_BY_A_HOLE = "This cell is occupied by a hole, The gamne is over.";
-	private static final String THE_NUMBER_OF_WHOLES_IS_LARGER = "The number of wholes is larger than the number of cells on the board.";
-	private static final String NOT_POSSIBLE_TO_FIND = "Not possible to find a place for a new hole in specified number of iterations.";
 	public static byte HOLE_CELL = 127;
 	public static int HOLE_REPOSITION_ATTAEMPTS_FACTOR = 33;
 
@@ -16,9 +21,9 @@ public class ByteArrayBoardImpl implements Board {
 	private final int heigth;
 
 	/**
-	 * Array of bytes is compact and fast data structure allowing
-	 * fast test cases and huge boards, like 1000 x 700 with -Xss100m
-	 * processing data inplace in a single array.
+	 * Array of bytes is a compact and fast data structure allowing
+	 * fast test cases and huge boards, like 1000 x 700 (with -Xss100m)
+	 * processing data inplace in a single non-redundant data structure.
 	 */
 	private final byte[][] board;
 
@@ -35,17 +40,22 @@ public class ByteArrayBoardImpl implements Board {
 		return remainingCellsToOpen;
 	}
 	
+	/**
+	 * Verifies if the cell is occupied by a hole.
+	 */
 	public static boolean isHole(byte cell) {
 		// using defensive programming style to prevent assignment.
 		return HOLE_CELL == cell;
 	}
 
+	/**
+	 * Verifies if the cell is closed and user does not see its content.
+	 */
 	public static boolean isClosed(byte cell) {
 		return 0 > cell;
 	}
 
 	public ByteArrayBoardImpl(int width, int height, int holesCnt, UiStrategy uiStrategy) {
-		super();
 		this.width = width;
 		this.heigth = height;
 		this.uiStrategy = uiStrategy;
@@ -56,17 +66,23 @@ public class ByteArrayBoardImpl implements Board {
 		remainingCellsToOpen = totalCells - holesCnt;
 		
 		if (holesCnt > totalCells) {
-			throw new IllegalArgumentException(THE_NUMBER_OF_WHOLES_IS_LARGER); 
+			throw new IllegalArgumentException(MsgFmtBundle.INST.format("NUMBER_OF_WHOLES")); 
 		}
 	}
 	
+	/**
+	 * Helper method to check if passed horizontal
+	 * and vertical coordinates are outside of the
+	 * board and therefore does not have corresponding cell.  
+	 */
 	boolean outOfBounds(int x, int y) {
 		return x < 0 || y < 0 || x > width - 1 || y > heigth - 1; 
 	}
 
 	/**
 	 * Simple implementation of recursive search to inspect all cells
-	 * adjacent	to the cell, which was chosen by user. 
+	 * adjacent	to the cell, which was chosen by user. Here the simplicity
+	 * and the clarity of algorithm favors 
 	 */
 	private void openAdjacentCells(int x, int y) {
 		if (outOfBounds(x, y) || HOLE_CELL == board[y][x] || 0 <= board[y][x]) {
@@ -92,13 +108,16 @@ public class ByteArrayBoardImpl implements Board {
 	}
 
 	/**
-	 * Use recurrent cell inspection to open space on the board.
+	 * Use recurrent cell inspection to open "chained" space on the board.
 	 */
 	@Override
-	public int next(int x, int y) throws GameIsOverException { // todo move check here
+	public int next(int x, int y) throws GameIsOverException {
+		if (outOfBounds(x, y)) {
+			throw new IllegalArgumentException(MsgFmtBundle.INST.format("BEYOND_EXPECTED_RANGE"));
+		}
 		byte cell = board[y][x];
 		if (HOLE_CELL == cell) {
-			throw new GameIsOverException(THIS_CELL_IS_OCCUPIED_BY_A_HOLE);
+			throw new GameIsOverException(MsgFmtBundle.INST.format("THIS_CELL_IS_OCCUPIED"));
 		} else if (cell < 0) {
 			// Open this cell, so the number of holes is visible.
 			openAdjacentCells(x, y);
@@ -119,7 +138,7 @@ public class ByteArrayBoardImpl implements Board {
 		// hole does not overlap or iteration limit exceeded.
 		while (i < holesCnt) {
 			if (++repositionNum > holesCnt * HOLE_REPOSITION_ATTAEMPTS_FACTOR) {
-				throw new IllegalArgumentException(NOT_POSSIBLE_TO_FIND);
+				throw new IllegalArgumentException(MsgFmtBundle.INST.format("NOT_POSSIBLE_TO_FIND"));
 			}
 			int y = r.nextInt(heigth);
 			int x = r.nextInt(width);
@@ -197,6 +216,9 @@ public class ByteArrayBoardImpl implements Board {
 		return result;
 	}
 
+	/**
+	 * Textual console implementation of board representation.
+	 */
 	@Override
 	public void ui() {
 		uiStrategy.uiChar(' ');

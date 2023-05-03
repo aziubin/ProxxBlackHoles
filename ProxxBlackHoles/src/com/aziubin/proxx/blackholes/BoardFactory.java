@@ -5,7 +5,7 @@ package com.aziubin.proxx.blackholes;
 
 public interface BoardFactory {
 	/**
-	 * Construct a board with specified width, height and holesNumber.
+	 * Construct a board with specified width, height and holes number.
 	 * @param width horizontal dimensions of the board
 	 * @param height vertical dimensions of the board
 	 * @param holesNumber the number of holes which constructed board should have.

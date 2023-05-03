@@ -3,93 +3,82 @@ license that can be found in the LICENSE file or at
 https://opensource.org/licenses/MIT.*/
 package com.aziubin.proxx.blackholes;
 
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
- * Start this application like below:
+ * Class, which represents console game application.
+ * Use command line to start it like below:
  * java.exe -Xss10m -cp ProxxBlackHoles.jar com.aziubin.proxx.blackholes.game 300 133 3455
+ * where 300 is horizontal dimensions of the board, 133 is vertical dimensions and 3455 is
+ * the number of holes.
  * java -jar ProxxBlackHoles.jar 155 25 187
  */
 public class Game {
-	private static final String UNEXPECTED_INPUT = "unexpected input";
-	private static final String BLACK_HOLE_CONSOLE_GAME = "the Black Hole console game.";
-	
-	private static void welcome() {
-		System.out.println("Welcome to " + BLACK_HOLE_CONSOLE_GAME);
-	}
 
-	private static void error(String mesage) {
-		System.out.println("Error: " + mesage);
-	}
-	
-	private static void seeyou() {
-		System.out.println("Thank you for using " + BLACK_HOLE_CONSOLE_GAME); //TODO resource
-	}
-
-	private static void greetings() {
-		System.out.println("You have won. All cells are opened."); //TODO resource
-	}
-	
-	private static Integer uiInt(Scanner scanner) {
-		if (!scanner.hasNextInt()) {
-			error(UNEXPECTED_INPUT);
-			scanner.next();
-			return null;
-		}
-		return scanner.nextInt();
-	}
-
+	/**
+	 * Main loop of the game where board is constructed,
+	 * user input is collected and the result of the move is presented to user.
+	 */
 	public static void play(Integer width, Integer heigth, Integer holesNumber) {
-		Board board = RndBoardFactory.INSTANCE.getBoard(width, heigth, holesNumber);
-		try(Scanner scanner = new Scanner(System.in)) {
-			do {
-				try {
-					board.ui();
-					System.out.println("Number of holes: " + holesNumber + ". Remaining cells to find: " + board.getRemainingCellsToOpen());
-					System.out.print("Type zero-based x and y and press enter, for example: 5 7\n>");
-
-					Integer x = uiInt(scanner);
-					if (x < 0 || x > width + 1) {
-						throw new Exception("x is not in expected range");
-					}
-					Integer y = uiInt(scanner);
-					if (y < 0 || y > heigth + 1) {
-						throw new Exception("y is not in expected range");
-					}
-					
-					int remainingCellsToOpen = board.next(x, y);
-					if (0 == remainingCellsToOpen) {
-						greetings();
-						board.ui();
-						break;
-					}
-//tpdp : ctrl-c
-				} catch (GameIsOverException e) {
-					System.out.println(e.getMessage());
-					break;
-				} catch (Exception e) {
-					error(e.getMessage());
-				}
-			} while (true);  // it is OK 
-		}
-		seeyou();
-	}
-
-	public static void main(String[] args) {
-		welcome();
-		int w, h, k;
 		try {
-			w = Integer.valueOf(args[0]);
-			h = Integer.valueOf(args[1]);
-			k = Integer.valueOf(args[2]);
-		} catch (Exception e) {
-			w = 33;
-			h = 10;
-			k = 10;
-			error("incorrect command line parameters, using default board width and height.");
-		}
+			Board board = RndBoardFactory.INST.getBoard(width, heigth, holesNumber);
+			try(Scanner scanner = new Scanner(System.in)) {
+	            do {
+	                try {
+	                    board.ui();
+	                    ConsoleUtils.printMessage("MOVE_STATUS", holesNumber, board.getRemainingCellsToOpen());
 
-		play(w, h, k);
-	}
+	                    int x = ConsoleUtils.getIntFromUi(scanner);
+	                    int y = ConsoleUtils.getIntFromUi(scanner);
+	                    
+	                    int remainingCellsToOpen = board.next(x, y);
+	                    if (0 == remainingCellsToOpen) {
+	                    	ConsoleUtils.printMessage("GREETING");
+	                        board.ui();
+	                        break;
+	                    }
+
+	                } catch (IllegalArgumentException e) {
+	                    System.out.println(e.getMessage());
+	                } catch (GameIsOverException e) {
+	                	System.out.println(e.getMessage());
+	                	break;
+	                } catch (IllegalStateException e) {
+	                	System.out.println(e.getMessage());
+	                	break;
+	                } catch (NoSuchElementException e) {
+	                	break;
+	                } catch (Exception e) {
+	                	System.out.println(e.getClass().getCanonicalName());
+	                	ConsoleUtils.printMessage("ERROR", e.getMessage());
+	                	break;
+	                }
+	            } while (true); 
+	        }
+		} catch (Exception e) {
+        	System.out.println(e.getMessage());
+        	return;
+		} finally {
+			ConsoleUtils.printMessage("SEEYOU");
+		}
+    }
+
+    public static void main(String[] args) {
+    	ConsoleUtils.printMessage("WELCOME");
+        int width, height, holes;
+        try {
+            width = Integer.valueOf(args[0]);
+            height = Integer.valueOf(args[1]);
+            holes = Integer.valueOf(args[2]);
+        } catch (Exception e) {
+            width = 33;
+            height = 10;
+            holes = 10;
+            ConsoleUtils.printMessage("INCORRECT_CMD", width, height, holes);
+        }
+
+        play(width, height, holes);
+    }
 
 }

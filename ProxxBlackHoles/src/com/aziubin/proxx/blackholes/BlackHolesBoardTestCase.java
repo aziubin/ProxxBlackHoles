@@ -25,7 +25,7 @@ class BlackHolesBoardTestCase {
 		for (int y = MIN_HEIGTH; y < MAX_HEIGTH; ++y) {
 			for (int x = MIN_WIDTH; x < MAX_WIDTH; ++x) {
 				for (int h = MIN_HOLES; h < MAX_HOLES; ++h) {
-					Board board = RndBoardFactory.INSTANCE.getBoard(x, y, h);
+					Board board = RndBoardFactory.INST.getBoard(x, y, h);
 					assertEquals(board.inspectHoles(), h);
 				}
 			}
@@ -41,7 +41,7 @@ class BlackHolesBoardTestCase {
 		for (int y = MIN_HEIGTH; y < MAX_HEIGTH; ++y) {
 			for (int x = MIN_WIDTH; x < MAX_WIDTH; ++x) {
 				for (int h = MIN_HOLES; h < MAX_HOLES; ++h) {
-					Board board = RndBoardFactory.INSTANCE.getBoard(x, y, h);
+					Board board = RndBoardFactory.INST.getBoard(x, y, h);
 					try {
 						board.next(0, 0);
 						assertEquals(board.getRemainingCellsToOpen(), x * y - board.inspectSpaces());
@@ -60,7 +60,7 @@ class BlackHolesBoardTestCase {
 	void testEmptyBoard() {
 		for (int y = MIN_HEIGTH; y < MAX_HEIGTH; ++y) {
 			for (int x = MIN_WIDTH; x < MAX_WIDTH; ++x) {
-				Board board = RndBoardFactory.INSTANCE.getBoard(x, y, 0);
+				Board board = RndBoardFactory.INST.getBoard(x, y, 0);
 				try {
 					board.next(0, 0);
 				} catch (GameIsOverException e) {
@@ -70,5 +70,5 @@ class BlackHolesBoardTestCase {
 			}
 		}
 	}
-	
+
 }

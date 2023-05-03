@@ -18,7 +18,7 @@ public interface Board {
 	void generate();
 
 	/**
-	 * Prepare user interface representation of the board, which can be for example console or Web. 
+	 * Prepare user interface representation of the board, which can be for example console or Web.
 	 */
 	void ui();
 

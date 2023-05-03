@@ -5,7 +5,6 @@ Start the game like below:
  * java -Xss10m -jar ProxxBlackHoles.jar 155 25 187
  where 155 is horizontal dimensions of the board, 25 is vertical dimensions and 187 is
  the number of holes.
- * java -Xss10m -cp ProxxBlackHoles.jar com.aziubin.proxx.blackholes.game 300 133 3455
  
 **Example of console output with the following board: with 55, heigth 19 and number of holes 25:**
  

@@ -3,6 +3,11 @@ license that can be found in the LICENSE file or at
 https://opensource.org/licenses/MIT.*/
 package com.aziubin.proxx.blackholes;
 
+/**
+ * Implementation of the board factory, which produces boards with uniformly randomly generated holes.
+ * There is no requirement to have singleton here, but enum is a convenient and thread-safe way to 
+ * instantiate factory used as a best practice.
+ */
 public enum RndBoardFactory implements BoardFactory {
 	INSTANCE;
 

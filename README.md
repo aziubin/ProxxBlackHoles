@@ -6,7 +6,7 @@ Start the game like below:
  where 155 is horizontal dimensions of the board, 25 is vertical dimensions and 187 is
  the number of holes.
  
-**Example of console output with the following board: with 55, heigth 19 and number of holes 25:**
+**Example of console output with the following board: width 55, heigth 19 and number of holes 25:**
  
 ~~~Welcome to the Black Hole console game version 1.0
   0123456789012345678901234567890123456789012345678901234

@@ -7,11 +7,12 @@ import java.security.SecureRandom;
 
 /**
  * Implementation using array of bytes underneath, which is extremely compact and fast way
- * to keep up to date information about board after each move. The content of each cell is
- * represented by the following numbers:
- * -2 -3 -4 ... -9 cells invisible to user with holes neighbors.
- * 127 cell is occupied by a hole
- * 0 cell, which does not have holes neighbors and is already opened and visible for user
+ * to keep up to date information about game situation after each move. The content of each
+ * cell is represented by the following numbers:
+ * -1              cell was not opened yet and does not have neighbor holes. 
+ * -2 -3 -4 ... -9 cell was not opened yet and have neighbor holes.
+ * 0               cell does not have neighbor holes and is already opened and visible for user.
+ * 127             cell is occupied by a hole and never visible for user.
  */
 public class ByteArrayBoardImpl implements Board {
 	public static byte HOLE_CELL = 127;

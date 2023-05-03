@@ -9,10 +9,10 @@ import java.util.Scanner;
 /**
  * Class, which represents console game application.
  * Use command line to start it like below:
- * java.exe -Xss10m -cp ProxxBlackHoles.jar com.aziubin.proxx.blackholes.game 300 133 3455
+ * java -Xss10m -cp ProxxBlackHoles.jar com.aziubin.proxx.blackholes.game 300 133 3455
  * where 300 is horizontal dimensions of the board, 133 is vertical dimensions and 3455 is
  * the number of holes.
- * java -jar ProxxBlackHoles.jar 155 25 187
+ * java -Xss10m -jar ProxxBlackHoles.jar 155 25 187
  */
 public class Game {
 

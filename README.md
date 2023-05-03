@@ -1,7 +1,63 @@
 # ProxxBlackHoles
 ProxxBlackHoles is a console game with the rules similar to https://proxx.app/.
 
-Example of console output when holes are visible for debug purposes with the following board: with 33, heigth 10 and number of holes 21:
+Start the game like below:
+ * java -Xss10m -jar ProxxBlackHoles.jar 155 25 187
+ where 155 is horizontal dimensions of the board, 25 is vertical dimensions and 187 is
+ the number of holes.
+ 
+**Example of console output with the following board: with 55, heigth 19 and number of holes 25:**
+ 
+~~~Welcome to the Black Hole console game version 1.0
+  0123456789012345678901234567890123456789012345678901234
+0 .......................................................
+1 .......................................................
+2 .......................................................
+3 .......................................................
+4 .......................................................
+5 .......................................................
+6 .......................................................
+7 .......................................................
+8 .......................................................
+9 .......................................................
+0 .......................................................
+1 .......................................................
+2 .......................................................
+3 .......................................................
+4 .......................................................
+5 .......................................................
+6 .......................................................
+7 .......................................................
+8 .......................................................
+Number of holes: 25. Remaining cells to find: 1,020
+Type zero-based X and Y and press enter, for example: 5 7
+>0 0
+  0123456789012345678901234567890123456789012345678901234
+0                 1.1 1.1     1.1            1.1         
+1                 1.1 111     1.21           11211       
+2                 111         12.1      111    1.1       
+3                              111      1.1    111       
+4                                       111              
+5 11               111                                111
+6 .1               1.1                               12..
+7 11   111         111                               1.21
+8      1.1     111            111   111              111 
+9    11211     1.1            1.1   1.1                  
+0    1.1       111            111   111                  
+1    111    111                                          
+2           1.1                                          
+3           111                                          
+4                                                        
+5                                               11211    
+6             111        111           111      1...1 111
+7             1.1   111  1.1           1.1      113.2 1..
+8             1.1   1.1  1.1           1.1        1.1 1..
+Number of holes: 25. Remaining cells to find: 11
+Type zero-based X and Y and press enter, for example: 5 7
+> 
+~~~
+
+**Example of console output when holes are visible for debug purposes with the following board: with 33, heigth 10 and number of holes 21:**
 
 ~~~Welcome to the Black Hole console game.
   012345678901234567890123456789012

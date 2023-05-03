@@ -16,56 +16,56 @@ import java.util.Scanner;
  */
 public class Game {
 
-	/**
-	 * Main loop of the game where board is constructed,
-	 * user input is collected and the result of the move is presented to user.
-	 */
-	public static void play(Integer width, Integer heigth, Integer holesNumber) {
-		try {
-			Board board = RndBoardFactory.INST.getBoard(width, heigth, holesNumber);
-			try(Scanner scanner = new Scanner(System.in)) {
-	            do {
-	                try {
-	                    board.ui();
-	                    ConsoleUtils.printMessage("MOVE_STATUS", holesNumber, board.getRemainingCellsToOpen());
+    /**
+     * Main loop of the game where board is constructed,
+     * user input is collected and the result of the move is presented to user.
+     */
+    public static void play(Integer width, Integer heigth, Integer holesNumber) {
+        try {
+            Board board = RndBoardFactory.INST.getBoard(width, heigth, holesNumber);
+            try(Scanner scanner = new Scanner(System.in)) {
+                do {
+                    try {
+                        board.ui();
+                        ConsoleUtils.printMessage("MOVE_STATUS", holesNumber, board.getRemainingCellsToOpen());
 
-	                    int x = ConsoleUtils.getIntFromUi(scanner);
-	                    int y = ConsoleUtils.getIntFromUi(scanner);
-	                    
-	                    int remainingCellsToOpen = board.next(x, y);
-	                    if (0 == remainingCellsToOpen) {
-	                    	ConsoleUtils.printMessage("GREETING");
-	                        board.ui();
-	                        break;
-	                    }
+                        int x = ConsoleUtils.getIntFromUi(scanner);
+                        int y = ConsoleUtils.getIntFromUi(scanner);
+                        
+                        int remainingCellsToOpen = board.next(x, y);
+                        if (0 == remainingCellsToOpen) {
+                            ConsoleUtils.printMessage("GREETING");
+                            board.ui();
+                            break;
+                        }
 
-	                } catch (IllegalArgumentException e) {
-	                    System.out.println(e.getMessage());
-	                } catch (GameIsOverException e) {
-	                	System.out.println(e.getMessage());
-	                	break;
-	                } catch (IllegalStateException e) {
-	                	System.out.println(e.getMessage());
-	                	break;
-	                } catch (NoSuchElementException e) {
-	                	break;
-	                } catch (Exception e) {
-	                	System.out.println(e.getClass().getCanonicalName());
-	                	ConsoleUtils.printMessage("ERROR", e.getMessage());
-	                	break;
-	                }
-	            } while (true); 
-	        }
-		} catch (Exception e) {
-        	System.out.println(e.getMessage());
-        	return;
-		} finally {
-			ConsoleUtils.printMessage("SEEYOU");
-		}
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    } catch (GameIsOverException e) {
+                        System.out.println(e.getMessage());
+                        break;
+                    } catch (IllegalStateException e) {
+                        System.out.println(e.getMessage());
+                        break;
+                    } catch (NoSuchElementException e) {
+                        break;
+                    } catch (Exception e) {
+                        System.out.println(e.getClass().getCanonicalName());
+                        ConsoleUtils.printMessage("ERROR", e.getMessage());
+                        break;
+                    }
+                } while (true); 
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return;
+        } finally {
+            ConsoleUtils.printMessage("SEEYOU");
+        }
     }
 
     public static void main(String[] args) {
-    	ConsoleUtils.printMessage("WELCOME");
+        ConsoleUtils.printMessage("WELCOME");
         int width, height, holes;
         try {
             width = Integer.valueOf(args[0]);

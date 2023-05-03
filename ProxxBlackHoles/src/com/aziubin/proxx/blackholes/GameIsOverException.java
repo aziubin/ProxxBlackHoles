@@ -4,10 +4,10 @@ https://opensource.org/licenses/MIT.*/
 package com.aziubin.proxx.blackholes;
 
 public class GameIsOverException extends Exception {
-	public GameIsOverException(String string) {
-		super(string);
-	}
+    public GameIsOverException(String string) {
+        super(string);
+    }
 
-	private static final long serialVersionUID = 4872178389354634462L;
+    private static final long serialVersionUID = 4872178389354634462L;
 
 }

@@ -8,14 +8,14 @@ package com.aziubin.proxx.blackholes;
  */
 public class ConsoleGameUi extends AbstractGameUi implements BoardUi {
 
-	@Override
-	public void hole() {
-		System.out.print(".");
-	}
+    @Override
+    public void hole() {
+        System.out.print(".");
+    }
 
-	@Override
-	public void closed() {
-		System.out.print(".");
-	}
+    @Override
+    public void closed() {
+        System.out.print(".");
+    }
 
 }

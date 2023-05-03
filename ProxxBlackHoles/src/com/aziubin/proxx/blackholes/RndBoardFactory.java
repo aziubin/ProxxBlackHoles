@@ -9,15 +9,15 @@ package com.aziubin.proxx.blackholes;
  * instantiate factory.
  */
 public enum RndBoardFactory implements BoardFactory {
-	INST;
+    INST;
 
-	@Override
-	public Board getBoard(Integer width, Integer height, Integer holesNumber) {
-		ByteArrayBoardImpl board = new ByteArrayBoardImpl(width, height, holesNumber, new ConsoleGameUi());
-		//Board board = new Board(width, height, holesNumber, new ConsoleDebugUiStrategy());
-		board.generate();
-		board.inspectBoard();
-		return board;
-	}
+    @Override
+    public Board getBoard(Integer width, Integer height, Integer holesNumber) {
+        ByteArrayBoardImpl board = new ByteArrayBoardImpl(width, height, holesNumber, new ConsoleGameUi());
+        //Board board = new Board(width, height, holesNumber, new ConsoleDebugUiStrategy());
+        board.generate();
+        board.inspectBoard();
+        return board;
+    }
 
 }

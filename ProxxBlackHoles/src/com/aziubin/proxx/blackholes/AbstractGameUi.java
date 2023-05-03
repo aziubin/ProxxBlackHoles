@@ -8,37 +8,37 @@ package com.aziubin.proxx.blackholes;
  */
 public abstract class AbstractGameUi implements BoardUi {
 
-	public abstract void hole();
+    public abstract void hole();
 
-	public abstract void closed();
+    public abstract void closed();
 
-	public void opened(byte cell) {
-		if (0 == cell) {
-			System.out.print(' ');
-		} else {
-			System.out.print(String.valueOf(cell));
-		}
-	}	
+    public void opened(byte cell) {
+        if (0 == cell) {
+            System.out.print(' ');
+        } else {
+            System.out.print(String.valueOf(cell));
+        }
+    }    
 
-	@Override
-	public void uiCell(byte cell) {
-		if (ByteArrayBoardImpl.isHole(cell)) {
-			hole();
-		} else if(ByteArrayBoardImpl.isClosed(cell)) {
-			closed();
-		} else {
-			opened(cell);
-		}
-	}
+    @Override
+    public void uiCell(byte cell) {
+        if (ByteArrayBoardImpl.isHole(cell)) {
+            hole();
+        } else if(ByteArrayBoardImpl.isClosed(cell)) {
+            closed();
+        } else {
+            opened(cell);
+        }
+    }
 
-	@Override
-	public void uiChar(char c) {
-		System.out.print(c);
-	}
+    @Override
+    public void uiChar(char c) {
+        System.out.print(c);
+    }
 
-	@Override
-	public void uiLine() {
-		System.out.println();
-	}
+    @Override
+    public void uiLine() {
+        System.out.println();
+    }
 
 }

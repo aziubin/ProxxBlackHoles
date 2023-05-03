@@ -83,8 +83,8 @@ public class ByteArrayBoardImpl implements Board {
 
 	/**
 	 * Simple implementation of recursive search to inspect all cells
-	 * adjacent	to the cell, which was chosen by user. Here the simplicity
-	 * and the clarity of algorithm favors 
+	 * adjacent	to the cell, which was chosen by user. The simplicity
+	 * and the clarity of algorithm favors over performance.
 	 */
 	private void openAdjacentCells(int x, int y) {
 		if (outOfBounds(x, y) || HOLE_CELL == board[y][x] || 0 <= board[y][x]) {
